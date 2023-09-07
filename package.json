@@ -1,0 +1,42 @@
+{
+  "name": "my-repl-app-test",
+  "version": "1.0.0",
+  "main": "./build/src/index.js",
+  "bin": {
+    "my-repl-app-test": "./build/src/index.js"
+  },
+  "private": true,
+  "preferGlobal": true,
+  "files": [
+    "build/src"
+  ],
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "dev": "tsc-watch --onSuccess \"npm run postcompile\"",
+    "postcompile": "npm run addJsSuffix && npm run copyDts && npm run fixDts && echo 'Ready...'",
+    "addJsSuffix": "npx replace-in-file --configFile=replace-config.cjs --quiet",
+    "copyDts": "npx copyfiles -f -e \"build/src/index.d.ts\"  \"build/src/**/*.d.ts\" @types",
+    "fixDts": "npx replace-in-file --configFile=replace-config-dts.cjs --quiet",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/node": "^20.1.2",
+    "copyfiles": "^2.4.1",
+    "gts": "^3.1.1",
+    "replace-in-file": "^6.3.5",
+    "tsc-watch": "^6.0.0",
+    "typescript": "~5.1.6"
+  },
+  "dependencies": {
+    "@impleta/repl-app": "^1.2.4",
+    "chai": "^4.3.7"
+  }
+}
